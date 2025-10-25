@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\JsonResponse;
+
 
 
 class LoginController extends Controller
@@ -30,7 +32,6 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::ADMIN;
-
     /**
      * Create a new controller instance.
      *
@@ -41,11 +42,28 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    // public function logout(Request $request)
+    // {
+    //     $this->guard()->logout();
+
+    //     $request->session()->invalidate();
+
+    //     $request->session()->regenerateToken();
+
+    //     if ($response = $this->loggedOut($request)) {
+    //         return $response;
+    //     }
+
+    //     return $request->wantsJson()
+    //         ? new JsonResponse([], 204)
+    //         : redirect('/login');
+    // }
+
     protected function validateLogin(Request $request)
     {
         $request->validate(
             [
-                $this->username() => 'required|string|email',
+                $this->username() => 'required|string',
                 'password' => 'required|string|min:6',
             ],
             [
@@ -67,8 +85,23 @@ class LoginController extends Controller
         ]);
     }
 
-    // public function username()
-    // {
-    //     return 'username';
-    // }
+    public function username()
+    {
+        return 'username';
+    }
+
+    protected function credentials(Request $request)
+    {
+        if (filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
+            $fieldDB = 'email';
+        } else {
+            $fieldDB = 'username';
+        }
+        $dataArr = [
+            $fieldDB => $request->username,
+            'password' => $request->password
+        ];
+
+        return $dataArr;
+    }
 }

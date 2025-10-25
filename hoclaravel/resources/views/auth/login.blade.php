@@ -17,14 +17,16 @@
                             @csrf
 
                             <div class="row mb-3">
-                                <label for="email" class="col-md-4 col-form-label text-md-end">Địa chỉ email: </label>
+                                <label for="username" class="col-md-4 col-form-label text-md-end">Email hoặc tên đăng
+                                    nhập</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="text"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" autocomplete="email" autofocus>
+                                    <input id="username" type="text"
+                                        class="form-control @error('username') is-invalid @enderror" name="username"
+                                        placeholder="Email hoặc tên đăng nhập..." value="{{ old('username') }}"
+                                        autocomplete="username" autofocus>
 
-                                    @error('email')
+                                    @error('username')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -38,7 +40,7 @@
                                 <div class="col-md-6">
                                     <input id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
-                                        autocomplete="current-password">
+                                        placeholder="Nhập mật khẩu..." autocomplete="current-password">
 
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
